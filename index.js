@@ -1,5 +1,6 @@
 import { Client, GatewayIntentBits, Collection } from "discord.js";
 import fs from "fs";
+import { registerCommands } from "./deploy-commands.js";
 
 const client = new Client({
   intents: [
@@ -11,35 +12,40 @@ const client = new Client({
 
 client.commands = new Collection();
 
-// Load commands
+// Cargar comandos
 const commandFiles = fs.readdirSync("./commands").filter(f => f.endsWith(".js"));
 for (const file of commandFiles) {
   const cmd = (await import(`./commands/${file}`)).default;
   client.commands.set(cmd.data.name, cmd);
 }
 
-client.on("ready", () => {
+client.once("ready", async () => {
   console.log(`Bot iniciado como ${client.user.tag}`);
+
+  // Registrar slash commands automáticamente
+  await registerCommands(process.env.TOKEN);
 });
 
-// Slash commands & interactions
+// Manejo de interacciones
 client.on("interactionCreate", async interaction => {
   if (interaction.isChatInputCommand()) {
     const cmd = client.commands.get(interaction.commandName);
     if (cmd) cmd.run(interaction, client);
   }
+
   if (interaction.isStringSelectMenu()) {
     const handler = (await import("./menus/selectMenuHandler.js")).default;
     handler(interaction);
   }
+
   if (interaction.isButton()) {
     const handler = (await import("./buttons/buttonHandler.js")).default;
     handler(interaction);
   }
 });
 
-// message triggers
-client.on("messageCreate", async msg => {
+// Mensajes normales (mm2: / sab:)
+client.on("messageCreate", msg => {
   if (msg.author.bot) return;
 
   if (msg.content.startsWith("mm2:")) {
