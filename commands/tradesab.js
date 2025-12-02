@@ -3,18 +3,18 @@ import { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } fro
 export default {
   data: new SlashCommandBuilder()
     .setName("tradesab")
-    .setDescription("Confirmación para SAB (brainrots)"),
+    .setDescription("Confirmación de trade SAB"),
 
   async run(interaction) {
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setCustomId("confirm_sab")
-        .setLabel("Confirmo para SAB")
+        .setLabel("Confirmo el trade SAB")
         .setStyle(ButtonStyle.Danger)
     );
 
     await interaction.reply({
-      content: "⚠️ **El bot no puede devolver brainrots** una vez entregados.",
+      content: "⚠️ **Los brainrots entregados no se pueden devolver.**",
       components: [row]
     });
   }
