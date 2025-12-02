@@ -3,17 +3,19 @@ import { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } fro
 export default {
   data: new SlashCommandBuilder()
     .setName("trademm2")
-    .setDescription("Trader: confirmar trade MM2"),
+    .setDescription("Confirmación de trade de MM2 para traders"),
 
   async run(interaction) {
-    const boton = new ButtonBuilder()
-      .setCustomId("confirmar_mm2")
-      .setStyle(ButtonStyle.Success)
-      .setLabel("CONFIRMO");
+    const row = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId("confirm_mm2")
+        .setLabel("Confirmo el trade de MM2")
+        .setStyle(ButtonStyle.Success)
+    );
 
     await interaction.reply({
-      content: "¿Estás seguro? Las armas NO se pueden devolver.",
-      components: [new ActionRowBuilder().addComponents(boton)]
+      content: "⚠️ **¿Estás seguro de hacer un trade de MM2?**\nLos ítems entregados al trader **no se pueden devolver**.",
+      components: [row]
     });
   }
 };
