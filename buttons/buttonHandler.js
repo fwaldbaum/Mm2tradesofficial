@@ -1,9 +1,9 @@
-export default async (interaction) => {
-  if (interaction.customId === "confirmar_mm2") {
-    await interaction.reply("El trader te enviará un servidor privado. Entrega las armas ahí.");
+export default async function (interaction) {
+  if (interaction.customId === "confirm_mm2") {
+    return interaction.reply("🔗 Un trader te enviará un servidor privado MM2.");
   }
 
-  if (interaction.customId === "confirmar_sab") {
-    await interaction.reply("Un trader te contactará para continuar el trade.");
+  if (interaction.customId === "confirm_sab") {
+    return interaction.reply("🧠 Un trader te enviará un servidor de SAB.");
   }
-};
+}
