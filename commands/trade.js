@@ -3,20 +3,22 @@ import { SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder } from "
 export default {
   data: new SlashCommandBuilder()
     .setName("trade")
-    .setDescription("Inicia un trade de MM2 o SAB"),
+    .setDescription("Inicia un trade con el bot de MM2 Trades"),
 
   async run(interaction) {
-    const menu = new StringSelectMenuBuilder()
-      .setCustomId("selector_juego")
-      .setPlaceholder("Selecciona un juego")
-      .addOptions(
-        { label: "MM2", value: "mm2" },
-        { label: "SAB (Brainrot)", value: "sab" }
-      );
+    const menu = new ActionRowBuilder().addComponents(
+      new StringSelectMenuBuilder()
+        .setCustomId("choose_game")
+        .setPlaceholder("Selecciona el juego...")
+        .addOptions([
+          { label: "Murder Mystery 2 (MM2)", value: "mm2" },
+          { label: "Skibi Brainrots (SAB)", value: "sab" }
+        ])
+    );
 
     await interaction.reply({
-      content: "¿Qué juego deseas tradear?",
-      components: [new ActionRowBuilder().addComponents(menu)]
+      content: "🛒 ¿Qué juego deseas tradear?",
+      components: [menu]
     });
   }
 };
