@@ -1,6 +1,5 @@
 import { Client, GatewayIntentBits, Collection } from "discord.js";
 import fs from "fs";
-import "dotenv/config";
 
 const client = new Client({
   intents: [
@@ -23,7 +22,7 @@ client.on("ready", () => {
   console.log(`Bot iniciado como ${client.user.tag}`);
 });
 
-// interactions
+// Slash commands & interactions
 client.on("interactionCreate", async interaction => {
   if (interaction.isChatInputCommand()) {
     const cmd = client.commands.get(interaction.commandName);
@@ -46,20 +45,15 @@ client.on("messageCreate", async msg => {
   if (msg.content.startsWith("mm2:")) {
     const armas = msg.content.replace("mm2:", "").trim();
     msg.reply(
-      `🗡 Armas: **${armas}**
-` +
-      `💰 Precio estimado: **200 Robux**
-
-` +
-      `Crea un pase y envíalo aquí.
-🔄 Contactando a un trader…`
+      `🗡 Armas: **${armas}**\n` +
+      `💰 Precio estimado: **200 Robux**\n\n` +
+      `Crea un pase y envíalo aquí.\n🔄 Contactando a un trader…`
     );
   }
 
   if (msg.content.startsWith("sab:")) {
     const brainrot = msg.content.replace("sab:", "").trim();
-    msg.reply(`🧠 Brainrot: **${brainrot}**
-🔄 Contactando a un trader…`);
+    msg.reply(`🧠 Brainrot: **${brainrot}**\n🔄 Contactando a un trader…`);
   }
 });
 
