@@ -1,13 +1,11 @@
-export default async (interaction) => {
+export default async function (interaction) {
   const value = interaction.values[0];
 
   if (value === "mm2") {
-    await interaction.reply("Has elegido **MM2**. Escribe las armas:
-`mm2: Iceblaster, Batwing`");
+    await interaction.reply("🗡 Escribe `mm2: tus armas` para calcular precio.");
   }
 
   if (value === "sab") {
-    await interaction.reply("Has elegido **SAB**. Escribe el brainrot:
-`sab: Ohio Gyat`");
+    await interaction.reply("🧠 Escribe `sab: tu brainrot` para contactar a un trader.");
   }
-};
+}
