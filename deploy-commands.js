@@ -1,35 +1,28 @@
 import { REST, Routes } from "discord.js";
 import fs from "fs";
-import "dotenv/config";
 
-// Cargar todos los comandos desde /commands
-const commands = [];
-const commandFiles = fs.readdirSync("./commands").filter(f => f.endsWith(".js"));
+export async function registerCommands(token) {
+  const CLIENT_ID = "1445505096937898035"; // ID de tu bot
+  const GUILD_ID = "1330250225855758366"; // ID de tu servidor
 
-for (const file of commandFiles) {
-  const cmd = (await import(`./commands/${file}`)).default;
-  commands.push(cmd.data.toJSON());
-}
+  const commands = [];
+  const commandFiles = fs.readdirSync("./commands").filter(f => f.endsWith(".js"));
 
-const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
+  for (const file of commandFiles) {
+    const cmd = (await import(`./commands/${file}`)).default;
+    commands.push(cmd.data.toJSON());
+  }
 
-// ⚠️ REEMPLAZAR ESTOS 2 DATOS ⚠️
-const CLIENT_ID = "1445505096937898035";
-const GUILD_ID = "ID_de_tu_servidor";
+  const rest = new REST({ version: "10" }).setToken(token);
 
-async function register() {
   try {
     console.log("⏳ Registrando slash commands...");
-
     await rest.put(
       Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID),
       { body: commands }
     );
-
     console.log("✅ Comandos registrados con éxito.");
   } catch (err) {
-    console.error(err);
+    console.error("❌ Error registrando comandos:", err);
   }
 }
-
-register();
